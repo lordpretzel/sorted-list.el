@@ -11,7 +11,7 @@
 ;; This file is not part of GNU Emacs
 
 ;; This file is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
+;; it under the terms of the GNU Gener1al Public License as published by
 ;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
@@ -41,9 +41,11 @@
 (cl-defstruct (sorted-list-
                (:constructor nil)
                (:constructor sorted-list--create
-                             (&optional lst
+                             (&optional list
                                         cmpfn
-                              &aux (tree (sorted-list--avl-index-list lst cmpfn)))))
+                                        &aux
+                                        (lst (sort list cmpfn))
+                                        (tree (sorted-list--avl-index-list lst cmpfn)))))
   "A list backed up with an avl tree for fast search."
   (lst nil :type list :documentation "The user-facing list.")
   (tree nil :type avl-tree- :documentation "The avl-tree indexing cons cells of the list.")
@@ -95,9 +97,9 @@ element in the tree, nil is returned."
 
 (defun sorted-list--avl-index-list (l cmpfn)
   "Create an AVL tree that indexes the cells of list L sorted according to CMPFN."
+  (setq l (sort l cmpfn))
   (let ((tree (avl-tree-create (sorted-list--create-tree-cmp-fn cmpfn)))
         (el l))
-    (sort l cmpfn)
     (while el
       (avl-tree-enter tree el)
       (setq el (cdr el)))
