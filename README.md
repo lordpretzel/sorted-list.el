@@ -7,7 +7,7 @@
 
 # sorted-list
 
-Small elisp library for efficiently maintaining a sorted `list`. Internally, this uses an AVL-tree to store the cells of the list, but the sorted list is also available as a regular lisp list (that is the point).
+Small elisp library for efficiently maintaining a sorted `list`. Internally, this uses an AVL-tree to store the cells of the list, but the sorted list is also available as a regular lisp list (that is the point). Note that because of the high constant factor of AVL-trees, it only makes sense to use this data structure if there are many lookups / updates and the list is large enough.
 
 ## Example Usage
 
@@ -23,6 +23,16 @@ Small elisp library for efficiently maintaining a sorted `list`. Internally, thi
 
 (sorted-list-delete mysortlist 5) ;; runs in O(log n)
 (pp (sorted-list-list mysortlist)) ;; get the underlying sorted lisp list
+
+;; benchmark searching the last element in a list (1 ... 300000) using sorted list vs. regular list
+(setq mysortlist (sorted-list-create (number-sequence 1 300000) '<))
+(setq myunsortlist (number-sequence 1 300000))
+(benchmark 10
+           '(dotimes (i 1000) (sorted-list-member-p mysortlist 299999)))
+;; Elapsed time: 0.065488s
+(benchmark 10
+           '(dotimes (i 1000) (member 299999 myunsortlist)))
+;; Elapsed time: 15.424318s
 ~~~
 
 ## Installation
