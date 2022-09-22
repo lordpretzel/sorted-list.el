@@ -114,11 +114,13 @@ element in the tree, nil is returned."
         (car el)
       nil)))
 
+;;;###autoload
 (defalias 'sorted-list-create #'sorted-list--create
   "Create a sorted list. If LST is provided, then sort list to create the sorted list.
 CMPFN is a function which takes two arguments, A and B,
 and returns non-nil if A is less than B, and nil otherwise.")
 
+;;;###autoload
 (defalias 'sorted-list-list #'sorted-list--lst
   "Get the elisp list version of a sorted list.")
 
@@ -127,6 +129,7 @@ and returns non-nil if A is less than B, and nil otherwise.")
   (not (or (funcall smallerfn a b)
            (funcall smallerfn b a))))
 
+;;;###autoload
 (defun sorted-list-insert (sl tuple)
   "Insert TUPLE into sorted list SL."
   (let* ((tr (sorted-list--tree sl))
@@ -158,6 +161,7 @@ and returns non-nil if A is less than B, and nil otherwise.")
           (setf (sorted-list--lst sl) newhead)
           (avl-tree-enter tr newhead)))))))
 
+;;;###autoload
 (defun sorted-list-delete (sl tuple)
   "Delete first instance of TUPLE in sorted list SL."
   (let* ((tr (sorted-list--tree sl))

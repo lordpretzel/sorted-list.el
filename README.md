@@ -7,7 +7,23 @@
 
 # sorted-list
 
-Small library for adding and removing advice to functions.
+Small elisp library for efficiently maintaining a sorted `list`. Internally, this uses an AVL-tree to store the cells of the list, but the sorted list is also available as a regular lisp list (that is the point).
+
+## Example Usage
+
+~~~elisp
+;; create a sorted list from a regular list, providing a comparison function implementing the sort order.
+(setq mysortlist (sorted-list-create '(4 3 5 10 7) '<))
+
+(sorted-list-member-p mysortlist 5) ;; runs in O(log n)
+(pp (sorted-list-list mysortlist)) ;; get the underlying sorted lisp list
+
+(sorted-list-insert mysortlist 1) ;; runs in O(log n)
+(pp (sorted-list-list mysortlist)) ;; get the underlying sorted lisp list
+
+(sorted-list-delete mysortlist 5) ;; runs in O(log n)
+(pp (sorted-list-list mysortlist)) ;; get the underlying sorted lisp list
+~~~
 
 ## Installation
 
